@@ -11,3 +11,14 @@ export interface PaginationProps {
     perPage: number,
     page: number
 }
+
+export interface PaginationResponse {
+    posts: IPost[],
+    totalPages: number,
+    currentPage: number
+}
+
+export interface IPostProps {
+    title: string;
+    description: string;
+}

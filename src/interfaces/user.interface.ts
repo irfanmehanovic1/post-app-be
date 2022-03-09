@@ -7,3 +7,8 @@ export interface IUser extends Document {
     password: string;
     username: string;
 }
+
+export interface IUserLogin {
+    password: string;
+    username: string;
+}

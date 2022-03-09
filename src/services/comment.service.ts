@@ -1,21 +1,22 @@
 import Comment from '../models/comment.model';
 import { IComment } from '../interfaces/comment.interface';
-// import { IPost } from '../interfaces/post.interface'
 import { IUser } from '../interfaces/user.interface';
 
 
-const commentCreate = async (comment: IComment, user: IUser, id: string) => {
+const commentCreate = async (comment: IComment, user: IUser, id: string): Promise<IComment> => {
     const date = Date.now();
     const created: IComment = await Comment.create({
         ...comment,
         date,
         author: user._id,
-        postRef: id
+        postRef: id,
+        commentRef: null,
+        depth: 0
     });
     return created;
 };
 
-const getAllComments = async (id: string)=> {
+const getAllComments = async (id: string): Promise<IComment[]>=> {
     const comments: IComment[] = await Comment.find({ postRef: id });
     return comments;
 };
@@ -45,14 +46,20 @@ const edit = async (id: string, user: IUser, comment: IComment): Promise<ICommen
         return null;
     }
     return commentUpdated;
-     
 }
 
-const getMyComments = async (user: any) => {
-    const { username } = user;
-    const author = username.toLowerCase();
-    const myComments = await Comment.find({ author });
-    return myComments;
+const reply = async (comment: IComment, user: IUser, id: string): Promise<IComment> => {
+    const parentComment = await Comment.findOne({ _id: id });
+    const date = Date.now();
+    const replied: IComment = await Comment.create({
+        ...comment,
+        date,
+        author: user._id,
+        postRef: parentComment?.postRef,
+        commentRef: id,
+        depth: (parentComment?.depth || 0) + 1
+    });
+    return replied;
 }
 
 export const commentService = {
@@ -61,5 +68,5 @@ export const commentService = {
     getComment,
     deleteComment,
     edit,
-    getMyComments
+    reply
 }

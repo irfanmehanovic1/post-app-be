@@ -15,6 +15,6 @@ commentRouter.route('/:id').delete(auth, commentController.deleteComment);
 
 commentRouter.route('/:id').patch(auth, commentController.edit);
 
-commentRouter.route('/mycomments').patch(auth, commentController.getMyComments);
+commentRouter.route('/reply/:id').post(auth, commentController.reply);
 
 export default commentRouter;

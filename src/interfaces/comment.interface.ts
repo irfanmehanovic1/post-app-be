@@ -6,4 +6,9 @@ export interface IComment extends Document {
     author: string;
     postRef: string;
     commentRef: string;
+    depth: number;
+}
+
+export interface ICommentProps {
+    text: string;
 }

@@ -16,9 +16,16 @@ const commentSchema: Schema = new Schema({
   },
   postRef: {
     type: Schema.Types.ObjectId, ref: 'Post'
+  },
+  commentRef: {
+    type: Schema.Types.ObjectId, ref: 'Comment'
+  },
+  depth: {
+    type: Number, 
+    default: 0
   }
 });
 
-const COmment: Model<IComment> = model("Comment", commentSchema);
+const Comment: Model<IComment> = model("Comment", commentSchema);
 
-export default COmment;
+export default Comment;

@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import User from '../models/user.model';
-import { IUser } from '../interfaces/user.interface'
-import jwt from 'jsonwebtoken';
+import { IUser, IUserLogin } from '../interfaces/user.interface'
 import { createBearerToken } from '../core/auth.middleware';
 
 
@@ -12,7 +11,7 @@ const getRandomInt = (max: number): number => {
     return Math.floor(Math.random() * max);
 }
 
-const userCreate = async (user: IUser) => {
+const userCreate = async (user: IUserLogin) => {
     const hash = await bcrypt.hashSync(user.password, saltRounds);
 
     const usernameInput = user.username;
@@ -29,7 +28,7 @@ const userCreate = async (user: IUser) => {
     ]);
 };
 
-const userLogin = async (user: IUser) => {
+const userLogin = async (user: IUserLogin) => {
     const usernameInput = user.username;
     const usernameToLowerCase = usernameInput.toLocaleLowerCase();
     const findUser = await User.findOne({
