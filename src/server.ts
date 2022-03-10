@@ -20,7 +20,7 @@ const initialize = async () => {
     
     app.use('/api/v1/', router);
 
-    if (process.env.NODE_ENV) {
+    if (CONFIG.PORT) {
       app.listen(CONFIG.PORT);
       console.log('App running on port:', CONFIG.PORT);
     }
