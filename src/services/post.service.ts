@@ -20,7 +20,7 @@ const getAllPosts = async ({perPage, page}: PaginationProps): Promise<Pagination
     const countPosts = await Post.find().count();
     const posts: IPost[] = await Post.aggregate( 
         [
-            { $sort : { date : 1 } },
+            { $sort : { date : -1 } },
             { $skip : (page - 1) * perPage },
             { $limit : perPage },
             {
