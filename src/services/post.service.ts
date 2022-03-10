@@ -16,12 +16,11 @@ const postCreate = async (post: IPostProps, user: IUser): Promise<IPost> => {
     return created;
 };
 
-const getAllPosts = async ({perPage, page}: PaginationProps): Promise<any>=> {
+const getAllPosts = async ({perPage, page}: PaginationProps): Promise<PaginationResponse>=> {
     const countPosts = await Post.find().count();
     const posts: IPost[] = await Post.aggregate( 
         [
-            // { $match: { _id: new ObjectId("6226523967873accf0353e1e")}},
-            { $sort : { date : -1 } },
+            { $sort : { date : 1 } },
             { $skip : (page - 1) * perPage },
             { $limit : perPage },
             {
@@ -53,12 +52,13 @@ const getAllPosts = async ({perPage, page}: PaginationProps): Promise<any>=> {
                 }
             })
         });
-        el.comments = commentHashMap[0];
+        el.comments = commentHashMap[0] || [];
     });
     return {
         posts,
         totalPages: Math.ceil(countPosts/perPage),
-        currentPage: page
+        currentPage: page,
+        numberOfItems: countPosts
     }
 };
 
@@ -93,7 +93,7 @@ const deletePost = async (id: string, user: IUser): Promise<string>=> {
     }
     // Delete all comments for that post
     await Comment.deleteMany({ postRef: id});
-    // Delete that psot
+    // Delete that post
     await Post.findOneAndDelete({ _id: id });
     return 'Successfuly deleted'
 
@@ -155,6 +155,7 @@ const getMyPosts = async (user: IUser, {perPage, page}: PaginationProps): Promis
         posts: myPosts,
         totalPages: Math.ceil(countPosts/perPage),
         currentPage: page,
+        numberOfItems: countPosts
     }
 }
 

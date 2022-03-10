@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import User from '../models/user.model';
-import { IUser, IUserLogin } from '../interfaces/user.interface'
+import { IUserLogin } from '../interfaces/user.interface'
 import { createBearerToken } from '../core/auth.middleware';
 
 
@@ -37,7 +37,7 @@ const userLogin = async (user: IUserLogin) => {
     if (!findUser) {
         throw new Error('userLogin wrong credentials');
     }
-    const valid = await bcrypt.compareSync(user.password, findUser.password)
+    const valid = bcrypt.compareSync(user.password, findUser.password)
     if (!valid) {
         throw new Error('userLogin wrong credentials');
     }

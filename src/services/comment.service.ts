@@ -11,6 +11,7 @@ const commentCreate = async (comment: IComment, user: IUser, id: string): Promis
         author: user._id,
         postRef: id,
         commentRef: null,
+        authorName: user.username,
         depth: 0
     });
     return created;
@@ -55,6 +56,7 @@ const reply = async (comment: IComment, user: IUser, id: string): Promise<IComme
         ...comment,
         date,
         author: user._id,
+        authorName: user.username,
         postRef: parentComment?.postRef,
         commentRef: id,
         depth: (parentComment?.depth || 0) + 1

@@ -1,9 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import cors from 'cors';
+
 import { CONFIG } from './core/config';
 import router from './routes';
-
 
 const initialize = async () => {
   try {
@@ -14,6 +15,7 @@ const initialize = async () => {
     console.log('Successfully connected to database');
 
     const app = express();
+    app.use(cors())
     app.use(bodyParser.json());
     
     app.use('/api/v1/', router);

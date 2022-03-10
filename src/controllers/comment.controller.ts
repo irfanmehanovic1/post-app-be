@@ -101,7 +101,7 @@ const reply = async (req: Request, res: Response) => {
         const { body, user } = req as RequestType; 
         const objectToCreate: any = await commentValidation.commentCreate(body);
         
-        const reply = await commentService.commentCreate(objectToCreate, user, id);
+        const reply = await commentService.reply(objectToCreate, user, id);
         if(!reply){
             return res.status(404).send({ message: 'Not created' });
         }

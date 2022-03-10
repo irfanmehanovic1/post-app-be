@@ -5,6 +5,7 @@ export interface IPost extends Document {
     date: string;
     author: string | ObjectId;
     description: string;
+    comments?: any[];
 }
 
 export interface PaginationProps {
@@ -15,7 +16,8 @@ export interface PaginationProps {
 export interface PaginationResponse {
     posts: IPost[],
     totalPages: number,
-    currentPage: number
+    currentPage: number,
+    numberOfItems: number,
 }
 
 export interface IPostProps {
